@@ -103,3 +103,10 @@ body {
   margin-top: 5px;
   font-weight: bold;
 }
+
+.desc {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0 10px 0;
+  max-width: 300px;
+}
