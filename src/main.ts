@@ -12,11 +12,26 @@ const counterElement = document.getElementById("counter")!;
 // Step 2
 button.addEventListener("click", () => {
   counter++;
-  counterElement.innerHTML = `${counter} Callers Scammed`;
+  counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
 });
 
-// Step 3:
-setInterval(() => {
-  counter++;
-  counterElement.innerHTML = `${counter} Callers Scammed`;
-}, 750);
+// Step 4 (Removed Step 3)
+let lastTime = performance.now();
+
+function update(time: number) {
+  // Calculating how much time has passed since the last frame (sec)
+  const delta = (time - lastTime) / 1000;
+  lastTime = time;
+
+  // Increase counter proportionally to elapsed time (1/sec)
+  counter += delta;
+
+  // Update display (using Math.floor makes it only display full numbers)
+  counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
+
+  // Keep looping
+  requestAnimationFrame(update);
+}
+
+// Start loop
+requestAnimationFrame(update);
