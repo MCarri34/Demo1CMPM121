@@ -4,7 +4,7 @@ let counter: number = 0;
 let growthRate: number = 0; // starts at 0
 let lastTime = performance.now();
 
-// Define upgrades with unique emojis
+// Define upgrades
 type Upgrade = {
   id: string;
   emoji: string;
@@ -81,17 +81,24 @@ button.addEventListener("click", () => {
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
 });
 
-// Step 6: Handle purchasing for multiple upgrades
+// Step 7: Price increases with each purchase
 upgradeButtons.forEach((btn, i) => {
   btn.addEventListener("click", () => {
     const upgrade = upgrades[i];
     if (counter >= upgrade.cost) {
+      // Deduct cost
       counter -= upgrade.cost;
+      // Increment owned count
       upgrade.count++;
+      // Increase growth rate
       growthRate += upgrade.rate;
+      // Increase cost by 15% (rounded to whole number)
+      upgrade.cost = Math.round(upgrade.cost * 1.2);
 
-      // Update displays
+      // Update UI elements
       countElements[i].textContent = `Owned: ${upgrade.count}`;
+      btn.textContent =
+        `${upgrade.emoji} Buy "${upgrade.name}" (Cost: ${upgrade.cost})`;
       counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
       rateElement.innerHTML = `Growth Rate: ${
         growthRate.toFixed(1)
@@ -100,19 +107,19 @@ upgradeButtons.forEach((btn, i) => {
   });
 });
 
-// Continuous growth loop (from Step 4 logic)
+// Continuous growth loop
 function update(time: number) {
   const delta = (time - lastTime) / 1000;
   lastTime = time;
 
-  // Increase counter based on growth rate
+  // Increase counter based on total growth rate
   counter += growthRate * delta;
 
-  // Update display
+  // Update main displays
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
   rateElement.innerHTML = `Growth Rate: ${growthRate.toFixed(1)} Scammings/sec`;
 
-  // Enable or disable upgrade buttons based on affordability
+  // Enable/disable buttons based on affordability
   upgradeButtons.forEach((btn, i) => {
     btn.disabled = counter < upgrades[i].cost;
   });
