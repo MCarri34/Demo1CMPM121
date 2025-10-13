@@ -4,17 +4,17 @@ let counter: number = 0;
 let growthRate: number = 0;
 let lastTime = performance.now();
 
-// Define Upgrades
-type Upgrade = {
+// Step 9: Data-driven design
+interface Item {
   id: string;
   emoji: string;
   name: string;
   cost: number;
-  rate: number; // growth per second
+  rate: number;
   count: number;
-};
+}
 
-const upgrades: Upgrade[] = [
+const availableItems: Item[] = [
   {
     id: "support",
     emoji: "👨🏾‍💻",
@@ -41,7 +41,7 @@ const upgrades: Upgrade[] = [
   },
 ];
 
-// Build layout
+// Build layout using data
 document.body.innerHTML = `
   <div class="game-container">
     <div class="info">
@@ -55,14 +55,14 @@ document.body.innerHTML = `
 
     <div id="upgrades">
       ${
-  upgrades
+  availableItems
     .map(
-      (u) => `
+      (item) => `
           <div class="upgrade">
-            <button type="button" id="upgrade-${u.id}" disabled>
-              ${u.emoji} Buy "${u.name}" (Cost: ${u.cost})
+            <button type="button" id="upgrade-${item.id}" disabled>
+              ${item.emoji} Buy "${item.name}" (Cost: ${item.cost})
             </button>
-            <span id="count-${u.id}">Owned: 0</span>
+            <span id="count-${item.id}">Owned: 0</span>
           </div>
         `,
     )
@@ -72,43 +72,44 @@ document.body.innerHTML = `
   </div>
 `;
 
+// DOM references
 const button = document.getElementById("increment") as HTMLButtonElement;
 const counterElement = document.getElementById("counter")!;
 const rateElement = document.getElementById("rate")!;
-const upgradeButtons = upgrades.map(
-  (u) => document.getElementById(`upgrade-${u.id}`) as HTMLButtonElement,
+const upgradeButtons = availableItems.map(
+  (item) => document.getElementById(`upgrade-${item.id}`) as HTMLButtonElement,
 );
-const countElements = upgrades.map(
-  (u) => document.getElementById(`count-${u.id}`)!,
+const countElements = availableItems.map(
+  (item) => document.getElementById(`count-${item.id}`)!,
 );
 
-// Manual click
+// Manual click increments
 button.addEventListener("click", () => {
   counter++;
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
 });
 
-// Purchasing upgrades
-upgradeButtons.forEach((btn, i) => {
-  btn.addEventListener("click", () => {
-    const upgrade = upgrades[i];
-    if (counter >= upgrade.cost) {
-      counter -= upgrade.cost;
-      upgrade.count++;
-      growthRate += upgrade.rate;
-      upgrade.cost = Math.round(upgrade.cost * 1.2);
+// Handle upgrade purchases dynamically
+for (let i = 0; i < availableItems.length; i++) {
+  upgradeButtons[i].addEventListener("click", () => {
+    const item = availableItems[i];
+    if (counter >= item.cost) {
+      counter -= item.cost;
+      item.count++;
+      growthRate += item.rate;
+      item.cost = Math.round(item.cost * 1.2);
 
       // Update UI
-      countElements[i].textContent = `Owned: ${upgrade.count}`;
-      btn.textContent =
-        `${upgrade.emoji} Buy "${upgrade.name}" (Cost: ${upgrade.cost})`;
+      countElements[i].textContent = `Owned: ${item.count}`;
+      upgradeButtons[i].textContent =
+        `${item.emoji} Buy "${item.name}" (Cost: ${item.cost})`;
       counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
       rateElement.innerHTML = `Scammings/sec: ${growthRate.toFixed(1)}`;
     }
   });
-});
+}
 
-// Continuous growth
+// Continuous auto-increment logic (requestAnimationFrame)
 function update(time: number) {
   const delta = (time - lastTime) / 1000;
   lastTime = time;
@@ -118,10 +119,10 @@ function update(time: number) {
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
   rateElement.innerHTML = `Scammings/sec: ${growthRate.toFixed(1)}`;
 
-  // Enable or Disable Buying Upgrade Based off Affordability
-  upgradeButtons.forEach((btn, i) => {
-    btn.disabled = counter < upgrades[i].cost;
-  });
+  // Enable or disable each upgrade based on current amount
+  for (let i = 0; i < availableItems.length; i++) {
+    upgradeButtons[i].disabled = counter < availableItems[i].cost;
+  }
 
   requestAnimationFrame(update);
 }
