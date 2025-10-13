@@ -9,7 +9,14 @@ document.body.innerHTML = `
 const button = document.getElementById("increment")!;
 const counterElement = document.getElementById("counter")!;
 
+// Step 2
 button.addEventListener("click", () => {
   counter++;
   counterElement.innerHTML = `${counter} Callers Scammed`;
 });
+
+// Step 3:
+setInterval(() => {
+  counter++;
+  counterElement.innerHTML = `${counter} Callers Scammed`;
+}, 750);
