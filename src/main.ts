@@ -1,8 +1,15 @@
-import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
 import "./style.css";
 
+let counter: number = 0;
 document.body.innerHTML = `
-  <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
+<type = "button" id= "increment">📞</button>
+<p id="counter">0 Callers Scammed</p>
 `;
 
-document.body.innerHTML += `<button>Click me!</button>`;
+const button = document.getElementById("increment")!;
+const counterElement = document.getElementById("counter")!;
+
+button.addEventListener("click", () => {
+  counter++;
+  counterElement.innerHTML = `${counter} Callers Scammed`;
+});
