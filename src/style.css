@@ -1,5 +1,105 @@
-.icon {
-  width: 64px;
-  vertical-align: top;
-  border: 1px solid salmon;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fafafa;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.info {
+  margin-bottom: 20px;
+}
+
+#counter,
+#rate {
+  font-size: 20px;
+  margin: 5px 0;
+}
+
+.main-clicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.clicker-btn {
+  font-size: 100px; /* big 📞 button */
+  padding: 50px;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(circle, #ffcccc 60%, #ffb3b3 100%);
+  box-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  animation: shine 2s infinite ease-in-out;
+}
+
+/* Hover pop effect */
+.clicker-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ✨ Shine animation ✨ */
+@keyframes shine {
+  0% {
+    box-shadow:
+      0 0 15px rgba(255, 100, 100, 0.4),
+      0 0 30px rgba(255, 150, 150, 0.3);
+    background: radial-gradient(circle, #ffcccc 60%, #ffb3b3 100%);
+  }
+  50% {
+    box-shadow:
+      0 0 25px rgba(255, 140, 140, 0.7),
+      0 0 60px rgba(255, 180, 180, 0.5);
+    background: radial-gradient(circle, #ffe6e6 60%, #ffcccc 100%);
+  }
+  100% {
+    box-shadow:
+      0 0 15px rgba(255, 100, 100, 0.4),
+      0 0 30px rgba(255, 150, 150, 0.3);
+    background: radial-gradient(circle, #ffcccc 60%, #ffb3b3 100%);
+  }
+}
+
+#upgrades {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  align-items: center;
+}
+
+.upgrade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upgrade button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: #ffe4e1;
+  cursor: pointer;
+}
+
+.upgrade button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.upgrade span {
+  margin-top: 5px;
+  font-weight: bold;
 }
