@@ -139,10 +139,8 @@ for (let i = 0; i < availableItems.length; i++) {
 
 // --- Game Loop ---
 function update(time: number) {
-  const delta = (time - lastTime) / 1000;
+  counter += growthRate * ((time - lastTime) / 1000); // inlined delta
   lastTime = time;
-
-  counter += growthRate * delta;
 
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
   rateElement.innerHTML = `Scammings/sec: ${growthRate.toFixed(1)}`;
