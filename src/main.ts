@@ -1,10 +1,11 @@
 import "./style.css";
 
+// --- Game State ---
 let counter: number = 0;
 let growthRate: number = 0;
 let lastTime = performance.now();
 
-// Step 10: Expanded and described items
+// --- Upgrade Definitions ---
 interface Item {
   id: string;
   emoji: string;
@@ -65,7 +66,7 @@ const availableItems: Item[] = [
   },
 ];
 
-// Build layout from data
+// --- DOM Setup ---
 document.body.innerHTML = `
   <div class="game-container">
     <div class="info">
@@ -97,7 +98,7 @@ document.body.innerHTML = `
   </div>
 `;
 
-// DOM references
+// --- DOM References ---
 const button = document.getElementById("increment") as HTMLButtonElement;
 const counterElement = document.getElementById("counter")!;
 const rateElement = document.getElementById("rate")!;
@@ -108,6 +109,7 @@ const countElements = availableItems.map(
   (item) => document.getElementById(`count-${item.id}`)!,
 );
 
+// --- Event Handlers ---
 // Manual click increments
 button.addEventListener("click", () => {
   counter++;
@@ -136,7 +138,7 @@ for (let i = 0; i < availableItems.length; i++) {
   });
 }
 
-// Continuous growth
+// --- Game Loop ---
 function update(time: number) {
   const delta = (time - lastTime) / 1000;
   lastTime = time;
