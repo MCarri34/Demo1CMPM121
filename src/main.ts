@@ -1,11 +1,10 @@
 import "./style.css";
 
-// --- Game State ---
+// --- Game State and Data ---
 let counter: number = 0;
 let growthRate: number = 0;
 let lastTime = performance.now();
 
-// --- Upgrade Definitions ---
 interface Item {
   id: string;
   emoji: string;
