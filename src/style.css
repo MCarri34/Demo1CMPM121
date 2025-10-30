@@ -1,112 +1,119 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #fafafa;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.info {
-  margin-bottom: 20px;
-}
-
-#counter,
-#rate {
-  font-size: 20px;
-  margin: 5px 0;
-}
-
-.main-clicker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
+/* ---------------------------------
+   CLICKER BUTTON ENHANCEMENTS
+   Inspired by Noah’s breathing animation + glowing button design
+   Noah reference:
+   https://github.com/Noah2271/cmpm-121-incremental-nbilledo/blob/main/src/style.css
+-----------------------------------*/
 .clicker-btn {
-  font-size: 100px; /* big 📞 button */
+  font-size: 100px;
   padding: 50px;
   border-radius: 50%;
   border: none;
   background: radial-gradient(circle, #ffcccc 60%, #ffb3b3 100%);
-  box-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
   cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.2s ease;
-  animation: shine 2s infinite ease-in-out;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+  box-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
+  animation: breathe 3s infinite ease-in-out;
 }
 
-/* Hover pop effect */
-.clicker-btn:hover {
-  transform: scale(1.1);
-}
-
-/* ✨ Shine animation ✨ */
-@keyframes shine {
+/* Breathing animation effect */
+@keyframes breathe {
   0% {
-    box-shadow:
-      0 0 15px rgba(255, 100, 100, 0.4),
-      0 0 30px rgba(255, 150, 150, 0.3);
-    background: radial-gradient(circle, #ffcccc 60%, #ffb3b3 100%);
+    transform: scale(0.95);
   }
   50% {
-    box-shadow:
-      0 0 25px rgba(255, 140, 140, 0.7),
-      0 0 60px rgba(255, 180, 180, 0.5);
-    background: radial-gradient(circle, #ffe6e6 60%, #ffcccc 100%);
+    transform: scale(1.03);
   }
   100% {
-    box-shadow:
-      0 0 15px rgba(255, 100, 100, 0.4),
-      0 0 30px rgba(255, 150, 150, 0.3);
-    background: radial-gradient(circle, #ffcccc 60%, #ffb3b3 100%);
+    transform: scale(0.95);
   }
 }
 
+/* Hover pop & shine */
+.clicker-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 40px rgba(255, 160, 160, 0.9);
+}
+
+/* Click feedback */
+.clicker-btn:active {
+  transform: scale(0.9);
+}
+
+/* ---------------------------------
+   UPGRADE SHOP IMPROVEMENTS
+   Inspired by Neila’s clean card layout with readable sections
+   Neila reference:
+   https://github.com/BellaTheAlien/cmpm-121-D1-NeilaMiranda/blob/main/src/style.css
+-----------------------------------*/
 #upgrades {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
+  gap: 18px;
   align-items: center;
 }
 
 .upgrade {
+  background-color: #fff0f3;
+  padding: 14px 18px;
+  width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.12s ease;
 }
 
+.upgrade:hover {
+  transform: translateY(-3px);
+}
+
+/* Stronger button presence */
 .upgrade button {
-  padding: 10px 20px;
+  padding: 10px 18px;
   font-size: 16px;
-  border-radius: 10px;
-  border: none;
   background-color: #ffe4e1;
   cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  transition: all 0.15s ease;
+}
+
+.upgrade button:hover:not(:disabled) {
+  background-color: #ffdcdc;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 12px rgba(255, 150, 150, 0.6);
 }
 
 .upgrade button:disabled {
+  filter: grayscale(0.7);
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.upgrade span {
-  margin-top: 5px;
-  font-weight: bold;
-}
-
+/* Cleaner item descriptions */
 .desc {
   font-size: 14px;
-  color: #555;
-  margin: 4px 0 10px 0;
-  max-width: 300px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* Layout: Center Everything */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ✅ Center horizontally */
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/* Ensure the phone button stays centered */
+.main-clicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
 }

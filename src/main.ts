@@ -1,5 +1,12 @@
 import "./style.css";
 
+// ✅ Inspired UI changes credited per assignment guide
+// Button animation enhancements based on Noah’s clicker design:
+// https://github.com/Noah2271/cmpm-121-incremental-nbilledo/blob/main/src/main.ts
+//
+// Upgrade card layout inspired by Neila’s project:
+// https://github.com/BellaTheAlien/cmpm-121-D1-NeilaMiranda/blob/main/src/main.ts
+
 // --- Game State and Data ---
 let counter: number = 0;
 let growthRate: number = 0;
@@ -82,14 +89,14 @@ document.body.innerHTML = `
   availableItems
     .map(
       (item) => `
-          <div class="upgrade">
-            <button type="button" id="upgrade-${item.id}" disabled>
-              ${item.emoji} Buy "${item.name}" (Cost: ${item.cost})
-            </button>
-            <span id="count-${item.id}">Owned: 0</span>
-            <p class="desc">${item.description}</p>
-          </div>
-        `,
+            <div class="upgrade">
+              <button type="button" id="upgrade-${item.id}" disabled>
+                ${item.emoji} Buy "${item.name}" (Cost: ${item.cost})
+              </button>
+              <span id="count-${item.id}">Owned: 0</span>
+              <p class="desc">${item.description}</p>
+            </div>
+          `,
     )
     .join("")
 }
@@ -109,13 +116,11 @@ const countElements = availableItems.map(
 );
 
 // --- Event Handlers ---
-// Manual click increments
 button.addEventListener("click", () => {
   counter++;
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
 });
 
-// Upgrade purchase logic (data-driven)
 for (let i = 0; i < availableItems.length; i++) {
   upgradeButtons[i].addEventListener("click", () => {
     const item = availableItems[i];
@@ -124,28 +129,23 @@ for (let i = 0; i < availableItems.length; i++) {
       item.count++;
       growthRate += item.rate;
 
-      // Step 10: cost multiplier changed to 1.2
       item.cost = Math.round(item.cost * 1.2);
 
-      // Update UI
       countElements[i].textContent = `Owned: ${item.count}`;
       upgradeButtons[i].textContent =
         `${item.emoji} Buy "${item.name}" (Cost: ${item.cost})`;
-      counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
-      rateElement.innerHTML = `Scammings/sec: ${growthRate.toFixed(1)}`;
     }
   });
 }
 
 // --- Game Loop ---
 function update(time: number) {
-  counter += growthRate * ((time - lastTime) / 1000); // inlined delta
+  counter += growthRate * ((time - lastTime) / 1000);
   lastTime = time;
 
   counterElement.innerHTML = `${Math.floor(counter)} Callers Scammed`;
   rateElement.innerHTML = `Scammings/sec: ${growthRate.toFixed(1)}`;
 
-  // Enable buttons based on affordability
   for (let i = 0; i < availableItems.length; i++) {
     upgradeButtons[i].disabled = counter < availableItems[i].cost;
   }
